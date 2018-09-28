@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Insert title here</title>
+		<link rel="stylesheet" type="text/css" href="../easyui/themes/default/easyui.css">
+		<link rel="stylesheet" type="text/css" href="../easyui/themes/icon.css">
+		<style type="text/css">
+			body {
+				margin: 0px;
+			}
+			.datagrid-header-row, .datagrid-row {
+				height: 20px;
+			}
+		</style>
+		<script type="text/javascript" src="../easyui/jquery.min.js"></script>
+		<script type="text/javascript" src="../easyui/jquery.easyui.min.js"></script>
+		<script type="text/javascript" src="../easyui/ext/datagrid-detailview.js"></script>
+		<script type="text/javascript" src="./view.js"></script>
+		<script>
+			$(function() {
+				$('#ssqTable').datagrid({
+					title : 'GDT-SSQ',
+					width : 500,
+					height : 300,
+					remoteSort : false,
+					singleSelect : true,
+					autoRowHeight : false,
+					fitColumns : true,
+					striped : true,
+					idField : 'NO',
+					//rownumbers: true,
+					columns : [[{
+						field : 'NO',
+						title : '序号',
+						width : 50
+					}, {
+						field : 'r1',
+						title : 'r1',
+						width : 50,
+					}, {
+						field : 'r2',
+						title : 'r2',
+						width : 50,
+					}, {
+						field : 'r3',
+						title : 'r3',
+						width : 50,
+					}, {
+						field : 'r4',
+						title : 'r4',
+						width : 50,
+					}, {
+						field : 'r5',
+						title : 'r5',
+						width : 50,
+					}, {
+						field : 'r6',
+						title : 'r6',
+						width : 50,
+					}, {
+						field : 'b',
+						title : 'b',
+						width : 50,
+					}]],
+					view : detailview,
+					detailFormatter : function(rowIndex, rowData) {
+						return '<table><tr>' + '<td rowspan=2 style="border:0"><img src="images/' + rowData.itemid + '.png" style="height:50px;"></td>' + '<td style="border:0">' + '<p>Attribute: ' + rowData.attr1 + '</p>' + '<p>Status: ' + rowData.status + '</p>' + '</td>' + '</tr></table>';
+					}
+				});
+			});
+		</script>
+	</head>
+	<body>
+		<table id="ssqTable" ></table>
+	</body>
+</html>
