@@ -4,8 +4,6 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.layout.FillLayout;
 
-import java.io.File;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.browser.Browser;
 
@@ -52,7 +50,6 @@ public class Main {
 		
 		Browser browser = new Browser(shell, SWT.NONE);
 		browser.setUrl("file:///"+System.getProperty("user.dir")+"/source/ui/ssq.html");
-
 	}
 
 }

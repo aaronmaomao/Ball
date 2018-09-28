@@ -29,6 +29,6 @@ public abstract class BaseCP {
 		this.date = date;
 	}
 	
-	public abstract String[] getOrderAsc();
-	public abstract String[] getOrderDesc();
+	//public abstract String[] getOrderAsc();
+	//public abstract String[] getOrderDesc();
 }

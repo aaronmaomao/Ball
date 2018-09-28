@@ -86,5 +86,4 @@ public class Ssq extends BaseCP {
 	public void setB(int b) {
 		this.b = b;
 	}
-
 }
