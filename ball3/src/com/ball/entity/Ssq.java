@@ -1,4 +1,4 @@
-package com.ball2.entity;
+package com.ball.entity;
 
 public class Ssq extends BaseCP {
 	private int r1;
@@ -10,7 +10,7 @@ public class Ssq extends BaseCP {
 	private int b;
 
 	public Ssq() {
-		// TODO 自动生成的构造函数存根
+		// TODO 自动生成的构造函数存�?
 	}
 
 	public Ssq(String id) {
