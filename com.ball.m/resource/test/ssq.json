@@ -1,0 +1,28 @@
+{
+	"total": 1200,
+	"rows": [
+		{
+			"id": "18007",
+			"date":"18-02-12",
+			"r1": "12",
+			"r2": "06",
+			"r3": "22",
+			"r4": "08",
+			"r5": "23",
+			"r6": "17",
+			"b" : "08"
+		}
+	],
+	"footer": [
+		{
+			"unitcost": 19.80,
+			"listprice": 60.40,
+			"productid": "Average:"
+		},
+		{
+			"unitcost": 198.00,
+			"listprice": 604.00,
+			"productid": "Total:"
+		}
+	]
+}

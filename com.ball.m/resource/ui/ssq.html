@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+	<link rel="stylesheet" type="text/css" href="../easyui/themes/default/easyui.css">
+	<link rel="stylesheet" type="text/css" href="../easyui/themes/icon.css">
+	<style type="text/css">
+		body {
+			margin: 0px;
+		}
+		.datagrid-header-row, .datagrid-row {
+			height: 22px;
+		}
+		.panelHeader {
+			height: 20px;
+			padding-top: 2px;
+			padding-bottom: 0;
+			border-top: 0;
+		}
+	</style>
+	<script type="text/javascript" src="../easyui/jquery.min.js"></script>
+	<script type="text/javascript" src="../easyui/jquery.easyui.min.js"></script>
+	<script type="text/javascript" src="../easyui/ext/datagrid-detailview.js"></script>
+	<script type="text/javascript" src="../easyui/ext/datagrid-cellediting.js"></script>
+	<script type="text/javascript" src="./ssq.js"></script>
+	<script type="text/javascript">
+		$(function() {
+			$('#ssqTable').datagrid({
+				//url:'../test/ssq.json'
+				data:[
+					{
+						"id": "18007",
+						"date":"18-02-12",
+						"r1": "12",
+						"r2": "06",
+						"r3": "22",
+						"r4": "08",
+						"r5": "23",
+						"r6": "17",
+						"b" : "08"
+					}
+				]
+			});
+		});
+		
+		function redCellStyler(value, row, index){
+			return "background-color:red;";
+		}
+	</script>
+</head>
+	<table id="ssqTable" class="easyui-datagrid" data-options="width:'800',height:'500'">
+		<thead>
+			<tr>
+				<th data-options="field:'id',width:50">id</th>
+				<th data-options="field:'date',width:65">date</th>
+				<th data-options="field:'r1',width:40,align:'center',styler:redCellStyler">r1</th>
+				<th data-options="field:'r2',width:40,align:'center'">r2</th>
+				<th data-options="field:'r3',width:40,align:'center'">r3</th>
+				<th data-options="field:'r4',width:40,align:'center'">r4</th>
+				<th data-options="field:'r5',width:40,align:'center'">r5</th>
+				<th data-options="field:'r6',width:40,align:'center'">r6</th>
+				<th data-options="field:'b',width:40,align:'center'">b</th>
+				<th data-options="field:'r1_asc',width:40,align:'right'">r1-s</th>
+				<th data-options="field:'r2_asc',width:40,align:'right'">r2-s</th>
+				<th data-options="field:'r3_asc',width:40,align:'right'">r3-s</th>
+				<th data-options="field:'r4_asc',width:40,align:'right'">r4-s</th>
+				<th data-options="field:'r5_asc',width:40,align:'right'">r5-s</th>
+				<th data-options="field:'r6_asc',width:40,align:'right'">r6-s</th>
+			</tr>
+		</thead>
+	</table>
+</html>
