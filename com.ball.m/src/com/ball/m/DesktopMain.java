@@ -45,7 +45,7 @@ public class DesktopMain {
 	 */
 	protected void createContents() {
 		shell = new Shell();
-		shell.setSize(450, 300);
+		shell.setSize(800, 600);
 		shell.setText("SWT Application");
 		shell.setLayout(new FillLayout(SWT.HORIZONTAL));
 		MyBrowser browser = new MyBrowser(shell, SWT.NONE, "file:///"+System.getProperty("user.dir")+"/resource/ui/ssq.html");
