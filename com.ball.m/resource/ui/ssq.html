@@ -27,6 +27,7 @@
 	<script type="text/javascript">
 		$(function() {
 			$('#ssqTable').datagrid({
+				data:[{id:'111',r1:'22'}],
 				url:'../test/ssq.json'
 			});
 		});
@@ -39,25 +40,34 @@
 			return "color:#0000ff";
 		}
 		
-		function refreshHandler(){
+		
+		function redCellFormat(value, row, index) {
+			if (value != null)
+				return parseInt(value).toString(16).toLocaleUpperCase();
+			else
+				return value;
+		}
+
+		function refreshHandler() {
 			alert();
 		}
+		
 	</script>
 </head>
 	<body>
-	<table id="ssqTable" style="" class="easyui-datagrid" 
-			data-options="width:'700',height:'500',idField:'id',ctrlSelect:'true',toolbar:'#tb'">
+	<table id="ssqTable" style="width:500" class="easyui-datagrid" 
+			data-options="width:'700',idField:'id',ctrlSelect:'true',fit:'true', pagination:true, toolbar:'#toolbar'">
 		<thead>
 			<tr>
 				<th data-options="field:'id',width:50">id</th>
 				<th data-options="field:'date',width:65">date</th>
-				<th data-options="field:'r1',width:40,align:'center',styler:redCellStyler">r1</th>
-				<th data-options="field:'r2',width:40,align:'center',styler:redCellStyler">r2</th>
-				<th data-options="field:'r3',width:40,align:'center',styler:redCellStyler">r3</th>
-				<th data-options="field:'r4',width:40,align:'center',styler:redCellStyler">r4</th>
-				<th data-options="field:'r5',width:40,align:'center',styler:redCellStyler">r5</th>
-				<th data-options="field:'r6',width:40,align:'center',styler:redCellStyler">r6</th>
-				<th data-options="field:'b',width:40,align:'center',styler:blueCellStyler">b</th>
+				<th data-options="field:'r1',width:40,align:'center', styler:redCellStyler, formatter:redCellFormat">r1</th>
+				<th data-options="field:'r2',width:40,align:'center', styler:redCellStyler, formatter:redCellFormat">r2</th>
+				<th data-options="field:'r3',width:40,align:'center', styler:redCellStyler, formatter:redCellFormat">r3</th>
+				<th data-options="field:'r4',width:40,align:'center', styler:redCellStyler, formatter:redCellFormat">r4</th>
+				<th data-options="field:'r5',width:40,align:'center', styler:redCellStyler, formatter:redCellFormat">r5</th>
+				<th data-options="field:'r6',width:40,align:'center', styler:redCellStyler, formatter:redCellFormat">r6</th>
+				<th data-options="field:'b',width:40,align:'center', styler:blueCellStyler, formatter:redCellFormat">b</th>
 				<th data-options="field:'r1_asc',width:40,align:'right',hidden:true">r1-s</th>
 				<th data-options="field:'r2_asc',width:40,align:'right',hidden:true">r2-s</th>
 				<th data-options="field:'r3_asc',width:40,align:'right',hidden:true">r3-s</th>
@@ -67,9 +77,12 @@
 			</tr>
 		</thead>
 	</table>
-	<div id="tb" align="right"">
-		<a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-edit',plain:true" onclick="refreshHandler()" ></a>
+	<div id="toolbar" align="right">
+		<input class="easyui-datebox" data-options="width:120" ><span style="margin-left: 3px;">-</span>
+		<input class="easyui-datebox" data-options="width:120" >
+		<a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-reload',plain:true" onclick="refreshHandler()" ></a>
 		<a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-help',plain:true" onclick="refreshHandler()" ></a>
+		<a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search',plain:true" onclick="refreshHandler()" ></a>
 	</div>
 	</body>
 </html>
