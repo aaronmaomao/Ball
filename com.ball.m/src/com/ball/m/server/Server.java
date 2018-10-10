@@ -1,18 +1,18 @@
-package com.ball.m;
+package com.ball.m.server;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
 
 import org.eclipse.swt.widgets.Composite;
 
-import com.ball.m.biz.service.HttpRequestHandler;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 
-public class Main {
+public class Server {
+	private static Server server;
 
-	public Main() {
+	private Server() {
 		try {
 			init();
 		} catch (IOException e) {
@@ -20,17 +20,23 @@ public class Main {
 		}
 	}
 
+	public static synchronized Server start() {
+		if (server == null) {
+			server = new Server();
+		}
+		return server;
+	}
+
 	private void init() throws IOException {
 		HttpServer server = HttpServer.create(new InetSocketAddress(8888), 0);
-		server.createContext("/test", new HttpHandler() {
+		server.createContext("/ball", new HttpHandler() {
 
 			@Override
 			public void handle(HttpExchange arg0) throws IOException {
-				new Thread(new HttpRequestHandler(arg0)).start();
+				new Thread(new HttpRequestHandlerCenter(arg0)).start();
 
 			}
 		});
-		
 		server.start();
 	}
 
@@ -39,6 +45,10 @@ public class Main {
 
 	public static void startWithWeb(String url) {
 
+	}
+
+	public static void main(String[] args) {
+		Server server = Server.start();
 	}
 
 }

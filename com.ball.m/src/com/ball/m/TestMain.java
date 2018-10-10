@@ -1,7 +1,5 @@
 package com.ball.m;
 
-import java.util.Arrays;
-
 public class TestMain {
 	public static void main(String[] args) {
 		int[] rs = new int[33];
