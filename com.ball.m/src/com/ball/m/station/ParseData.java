@@ -1,4 +1,4 @@
-package com.ball.m.biz.net;
+package com.ball.m.station;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

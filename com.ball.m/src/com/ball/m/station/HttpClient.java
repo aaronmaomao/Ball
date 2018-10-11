@@ -1,4 +1,4 @@
-package com.ball.m.biz.net;
+package com.ball.m.station;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -12,7 +12,7 @@ public class HttpClient {
 		String result = "";
 		try {
 			URL url = new URL(httpurl);
-			// 创建代理服务器
+			// 创建代理服务�?
 			// InetSocketAddress addr = new InetSocketAddress("10.237.116.4", 9515);
 			// Proxy proxy = new Proxy(Proxy.Type.HTTP, addr); // http 代理
 			URLConnection conn = url.openConnection();
@@ -21,7 +21,7 @@ public class HttpClient {
 			BufferedReader br = new BufferedReader(new InputStreamReader(in, "utf-8"));
 			String data = "";
 			while ((data = br.readLine()) != null) {
-				if (data.length() > 2000)
+				if (data.endsWith("</tbody>"))
 					result = data;
 			}
 			in.close();
@@ -34,7 +34,7 @@ public class HttpClient {
 	}
 
 	public static void main(String[] args) {
-		String result = HttpClient.doGet("http://datachart.500.com/ssq/history/newinc/outball.php?start=18111&end=99999");
+		String result = HttpClient.doGet("");
 		ParseData.parseSsq(result);
 	}
 }
