@@ -11,6 +11,9 @@ import com.sun.net.httpserver.HttpServer;
 
 public class Server {
 	private static Server server;
+	private static final int port=8888;
+	public static final String root="/ball";
+	
 
 	private Server() {
 		try {
@@ -28,8 +31,8 @@ public class Server {
 	}
 
 	private void init() throws IOException {
-		HttpServer server = HttpServer.create(new InetSocketAddress(8888), 0);
-		server.createContext("/ball", new HttpHandler() {
+		HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
+		server.createContext(root, new HttpHandler() {
 
 			@Override
 			public void handle(HttpExchange arg0) throws IOException {

@@ -12,9 +12,16 @@ public abstract class Request {
 
 	protected Request(HttpExchange exchange) {
 		this.url = exchange.getRequestURI().toString();
-		int i = url.indexOf("?");
-		if (i > 0)
-			url = url.substring(0, i);
+
+		if (url.equals(Server.root)) {
+			url = "";
+		} else {
+			int i = url.indexOf("?");
+			if (i > 0) {
+				url = url.substring(0, i);
+			}
+			url = url.substring(Server.root.length(), url.length());
+		}
 		this.queryParams = Util.formData2Dic(exchange.getRequestURI().getQuery());
 		this.method = exchange.getRequestMethod();
 	}

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.ball.m.server.handler.FileRequestHandler;
 import com.ball.m.server.handler.TestHandler;
 import com.sun.net.httpserver.HttpExchange;
 
@@ -32,7 +33,7 @@ public class HttpRequestHandlerCenter implements Runnable {
 	}
 
 	public void distribute(String url, Request request, Response response) throws Exception {
-		IHandler handler = _handlerMap.get(url.toLowerCase());
+		IHandler handler = getHandler(request);
 		if (handler != null) {
 			switch (request.getMethod().toLowerCase()) {
 			case "post":
@@ -66,8 +67,17 @@ public class HttpRequestHandlerCenter implements Runnable {
 		return response;
 	}
 
+	private IHandler getHandler(Request request) {
+		IHandler handler = null;
+		String url = request.getUrl();
+		if(url.endsWith(".html")||url.endsWith(".js")||url.endsWith(".json")||url.endsWith(".png")||url.endsWith(".css")||url.endsWith(".gif")){
+			handler = _handlerMap.get("commonfile");
+		}
+		return handler;
+	}
+
 	static {
-		_handlerMap.put("/ball/data/ssq.json", new TestHandler());
+		_handlerMap.put("commonfile", new FileRequestHandler());
 	}
 
 }
