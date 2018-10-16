@@ -47,11 +47,13 @@ body {
 				param.end = param.start + param.rows - 1;
 			},
 			loadFilter : function(data) {
+				debugger
 				if (data.isSuccess == "true") {
 					return data.data;
 				}
 			},
 			onLoadSuccess : function(data) {
+				debugger
 				$('#ssqTable').datagrid("scrollTo", data.rows.length - 1);
 			}
 
@@ -101,8 +103,10 @@ body {
 		return value;
 	}
 
-	function search(param){
-		
+	function sum(){
+		$.get("./ssq", {fun:"sum"}, function(data){
+			$('#ssqTable').datagrid("loadData", data);
+		}, "json");
 	}
 </script>
 </head>
@@ -134,7 +138,8 @@ body {
 		<input id="endDate" class="easyui-datebox" data-options="width:110"> 
 		<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-search',plain:true" onclick="refreshHandler()"></a> 
 		<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-help',plain:true" onclick="refreshHandler()"></a>
-		<a href="javascript:void(0);" class="easyui-linkbutton" title="asd" data-options="iconCls:'',text:'同步', plain:true" onclick="synCh"></a>
+		<a href="javascript:void(0);" class="easyui-linkbutton" title="asd" data-options="iconCls:'',text:'syns', plain:true" onclick="synCh"></a>
+		<a href="javascript:void(0);" class="easyui-linkbutton" title="asd" data-options="iconCls:'',text:'sum', plain:true" onclick="sum()"></a>
 	</div>
 </body>
 </html>
