@@ -37,23 +37,32 @@ body {
 	$(function() {
 		//表格
 		$('#ssqTable').datagrid({
-			url : './ssq',
-			method : 'get',
-			queryParams : {
-				fun : 'getRecords'
+			queryParams:{
+				fun : "getRecords"
 			},
 			onBeforeLoad : function(param) {
 				param.start = (param.page - 1) * param.rows;
 				param.end = param.start + param.rows - 1;
 			},
-			loadFilter : function(data) {
-				debugger
-				if (data.isSuccess == "true") {
-					return data.data;
-				}
+			loader:function(param, success, err){	//自己处理请求
+				debugger;
+				$.ajax({
+					url:'./ssq',
+					type:'get',
+					data:param,
+					dataType:'json',
+					success:function(data){
+						debugger
+						if(check(data)){
+							success(data.data);
+						}else{
+							err();
+						}
+					},
+					err:err
+				});
 			},
 			onLoadSuccess : function(data) {
-				debugger
 				$('#ssqTable').datagrid("scrollTo", data.rows.length - 1);
 			}
 
@@ -105,18 +114,30 @@ body {
 
 	function sum(){
 		$.get("./ssq", {fun:"sum"}, function(data){
-			$('#ssqTable').datagrid("loadData", data);
+			if (check(data)) {
+				$('#ssqTable').datagrid("loadData", data.data)
+			}
 		}, "json");
+	}
+
+	function check(data) {
+		if (data != null && data.isSuccess != null && data.isSuccess == "true") {
+			return true;
+		} else {
+			$.messager.alert('失败', data.data);
+			return false;
+		}
 	}
 </script>
 </head>
 <body>
 	<table id="ssqTable" style="width: 500" class="easyui-datagrid"
-		data-options="width:'700',idField:'id',ctrlSelect:'true',fit:'true', pagination:true,pageSize:100, pageList:[10,30,100,99999], toolbar:'#toolbar'">
+		data-options="width:'700',idField:'id', ctrlSelect:'true',fit:'true', pagination:true,pageSize:100, pageList:[10,30,100,99999], toolbar:'#toolbar'">
 		<thead>
 			<tr>
 				<th data-options="field:'id',width:50">id</th>
 				<th data-options="field:'date',width:70">date</th>
+				<th data-options="field:'common',width:70">common</th>
 				<th data-options="field:'r1',width:40,align:'center', styler:redCellStyler, formatter:redCellFormat">r1</th>
 				<th data-options="field:'r2',width:40,align:'center', styler:redCellStyler, formatter:redCellFormat">r2</th>
 				<th data-options="field:'r3',width:40,align:'center', styler:redCellStyler, formatter:redCellFormat">r3</th>

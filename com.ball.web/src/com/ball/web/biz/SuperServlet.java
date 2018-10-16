@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.ball.web.entity.Result;
+import com.mysql.jdbc.StringUtils;
 
 /**
  * Servlet implementation class SsqServlet
@@ -57,6 +58,10 @@ public class SuperServlet extends HttpServlet {
 	private Result handle(HttpServletRequest request) {
 		Result result = new Result(false, "");
 		String funName = request.getParameter("fun");
+		if (StringUtils.isNullOrEmpty(funName)) {
+			result.addData("请求功能为空");
+			return result;
+		}
 		for (Method m : mList) {
 			if (m.getName().equals(funName)) {
 				BallFuntion anno = m.getAnnotation(BallFuntion.class);
