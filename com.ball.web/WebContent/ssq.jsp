@@ -65,7 +65,6 @@ body {
 			onLoadSuccess : function(data) {
 				$('#ssqTable').datagrid("scrollTo", data.rows.length - 1);
 			}
-
 		});
 		
 		//日期选择
@@ -119,14 +118,7 @@ body {
 			}
 		}, "json");
 	}
-
-	function check(data) {
-		if (data != null && data.isSuccess != null && data.isSuccess == "true") {
-			return true;
-		} else {
-			$.messager.alert('失败', data.data);
-			return false;
-		}
+	function showColumn(columns){
 	}
 </script>
 </head>
@@ -137,7 +129,7 @@ body {
 			<tr>
 				<th data-options="field:'id',width:50">id</th>
 				<th data-options="field:'date',width:70">date</th>
-				<th data-options="field:'common',width:70">common</th>
+				<th data-options="field:'common1',width:70, hidden:true">common1</th>
 				<th data-options="field:'r1',width:40,align:'center', styler:redCellStyler, formatter:redCellFormat">r1</th>
 				<th data-options="field:'r2',width:40,align:'center', styler:redCellStyler, formatter:redCellFormat">r2</th>
 				<th data-options="field:'r3',width:40,align:'center', styler:redCellStyler, formatter:redCellFormat">r3</th>
@@ -145,6 +137,7 @@ body {
 				<th data-options="field:'r5',width:40,align:'center', styler:redCellStyler, formatter:redCellFormat">r5</th>
 				<th data-options="field:'r6',width:40,align:'center', styler:redCellStyler, formatter:redCellFormat">r6</th>
 				<th data-options="field:'b',width:40,align:'center', styler:blueCellStyler, formatter:redCellFormat">b</th>
+				<th data-options="field:'common2',width:70, hidden:true">common2</th>
 				<th data-options="field:'r1_asc',width:40,align:'right',hidden:true">r1-s</th>
 				<th data-options="field:'r2_asc',width:40,align:'right',hidden:true">r2-s</th>
 				<th data-options="field:'r3_asc',width:40,align:'right',hidden:true">r3-s</th>

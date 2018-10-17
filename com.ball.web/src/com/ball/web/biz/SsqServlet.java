@@ -52,7 +52,7 @@ public class SsqServlet extends SuperServlet {
 			r6 = r6 + ssq.getR6();
 			b = b + ssq.getB();
 		}
-		JSONObject sum = new JSONObject("common", "和值");
+		JSONObject sum = new JSONObject("common", "hz");
 		sum.add("r1", r1);
 		sum.add("r2", r2);
 		sum.add("r3", r3);
@@ -60,7 +60,7 @@ public class SsqServlet extends SuperServlet {
 		sum.add("r5", r5);
 		sum.add("r6", r6);
 		sum.add("b", r6);
-		JSONObject avg = new JSONObject("common", "均值");
+		JSONObject avg = new JSONObject("common", "jz");
 		avg.add("r1", (double) r1 / (double) ssqs.size());
 		avg.add("r2", (double) r2 / (double) ssqs.size());
 		avg.add("r3", (double) r3 / (double) ssqs.size());
