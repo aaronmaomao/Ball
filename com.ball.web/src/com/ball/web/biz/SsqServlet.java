@@ -1,9 +1,11 @@
 package com.ball.web.biz;
 
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
 
 import com.ball.web.commom.Constant;
+import com.ball.web.commom.Util;
 import com.ball.web.entity.JSONArray;
 import com.ball.web.entity.JSONObject;
 import com.ball.web.entity.Ssq;
@@ -12,8 +14,9 @@ public class SsqServlet extends SuperServlet {
 
 	private static final long serialVersionUID = -3078436182490412275L;
 
-	@BallFuntion(params = { "start=0", "end" })
+	@BallFuntion(params = { "start=0", "end=99999" })
 	public JSONObject getRecords(int start, int end) {
+		JSONObject object = new JSONObject();
 		List<Ssq> ssqs = getAllSsq();
 		JSONArray array = new JSONArray();
 		if (start > ssqs.size())
@@ -33,9 +36,22 @@ public class SsqServlet extends SuperServlet {
 		for (int i = start; i <= end; i++) {
 			array.add(ssqs.get(i).getJSON());
 		}
-		JSONObject object = new JSONObject();
+		
 		object.add("total", ssqs.size());
 		object.add("rows", array);
+		return object;
+	}
+	
+	@BallFuntion(params = { "start=2003-01-01", "end=2222-01-01" })
+	public JSONObject getRecordsByDate(String start, String end) {
+		Date s = Util.df2.parse(start);
+		Date e = Util.df2.parse(end);
+		JSONObject object = new JSONObject();
+		List<Ssq> ssqs = getAllSsq();
+		for (int i = 0; i <= ssqs.size(); i++) {
+			Date date = ssqs.get(i).getDate();
+			if(date.get) {}
+		}
 		return object;
 	}
 
@@ -94,4 +110,9 @@ public class SsqServlet extends SuperServlet {
 		}
 		return ssqs;
 	}
+
+	private int getId(List<Ssq> ssq, Date date) {
+		
+	}
+
 }

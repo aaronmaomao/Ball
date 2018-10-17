@@ -12,6 +12,7 @@ import java.util.Map;
 public class Util {
 
 	public static DateFormat bf = new SimpleDateFormat("yy-MM-dd");
+	public static SimpleDateFormat df2 = new SimpleDateFormat("yyyy-MM-dd");
 
 	public static int[] orderAsc(int[] arr) {
 		for (int j = arr.length; j > 0; j--)
