@@ -32,11 +32,11 @@ public class SsqServlet extends SuperServlet {
 		return pagination.toJsonObject();
 	}
 
-	@BallFuntion(params = { "start=2003-01-01", "end=2222-01-01" })
-	public JSONObject getRecordsByDate(String start, String end) throws Exception {
+	@BallFuntion(params = { "start=2003-01-01", "end=2222-01-01", "page=1", "rows=99999" })
+	public JSONObject getRecordsByDate(String start, String end, int page, int rows) throws Exception {
+		pagination pagination = new pagination(page, rows);
 		Date s = Util.df2.parse(start);
 		Date e = Util.df2.parse(end);
-		JSONObject object = new JSONObject();
 		List<Ssq> ssqs = getAllSsq();
 		JSONArray array = new JSONArray();
 		for (int i = 0; i < ssqs.size(); i++) {
@@ -47,8 +47,7 @@ public class SsqServlet extends SuperServlet {
 				break;
 			array.add(ssqs.get(i).getJSON());
 		}
-		object.add("total", array.size());
-		object.add("rows", array);
+		pagination.setTotal(array.size());
 		return object;
 	}
 
@@ -102,5 +101,12 @@ public class SsqServlet extends SuperServlet {
 			}
 		}
 		return ssqs;
+	}
+
+	private int getIndex(List<Ssq> list, int id) {
+		int left = 0, center = list.size() / 2, right = list.size() - 1;
+		while (!(left == center && center == right)) {
+			
+		}
 	}
 }
