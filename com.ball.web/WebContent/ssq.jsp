@@ -34,25 +34,22 @@ body {
 <script type="text/javascript" src="<%=basePath%>resource/easyui/ext/datagrid-cellediting.js"></script>
 <script type="text/javascript" src="<%=basePath%>resource/js/ssq.js"></script>
 <script type="text/javascript">
+	var queryParams = {
+		fun : "getRecords"
+	};
 	$(function() {
 		//表格
 		$('#ssqTable').datagrid({
-			queryParams:{
-				fun : "getRecords"
-			},
+			queryParams:queryParams,
 			onBeforeLoad : function(param) {
-				param.start = (param.page - 1) * param.rows;
-				param.end = param.start + param.rows - 1;
 			},
 			loader:function(param, success, err){	//自己处理请求
-				debugger;
 				$.ajax({
 					url:'./ssq',
 					type:'get',
 					data:param,
 					dataType:'json',
 					success:function(data){
-						debugger
 						if(check(data)){
 							success(data.data);
 						}else{
@@ -118,6 +115,16 @@ body {
 			}
 		}, "json");
 	}
+	
+	function searchByDate(){
+		var startDate = $("#startDate").datebox('getValue');
+		var endDate = $("#endDate").datebox('getValue');
+		$.get('./ssq', {fun:'getRecordsByDate', start:startDate, end:endDate}, function(data){
+			if(check(data)){
+				$('#ssqTable').datagrid("loadData", data.data)
+			}
+		}, 'json');
+	}
 	function showColumn(columns){
 	}
 </script>
@@ -150,7 +157,7 @@ body {
 	<div id="toolbar">
 		<input id="startDate" class="easyui-datebox" data-options="width:110"><span style="margin-left: 3px;font-weight: bold;">-</span>
 		<input id="endDate" class="easyui-datebox" data-options="width:110"> 
-		<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-search',plain:true" onclick="refreshHandler()"></a> 
+		<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-search',plain:true" onclick="searchByDate()"></a> 
 		<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-help',plain:true" onclick="refreshHandler()"></a>
 		<a href="javascript:void(0);" class="easyui-linkbutton" title="asd" data-options="iconCls:'',text:'syns', plain:true" onclick="synCh"></a>
 		<a href="javascript:void(0);" class="easyui-linkbutton" title="asd" data-options="iconCls:'',text:'sum', plain:true" onclick="sum()"></a>

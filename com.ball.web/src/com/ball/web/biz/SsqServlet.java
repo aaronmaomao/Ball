@@ -8,50 +8,47 @@ import com.ball.web.commom.Constant;
 import com.ball.web.commom.Util;
 import com.ball.web.entity.JSONArray;
 import com.ball.web.entity.JSONObject;
+import com.ball.web.entity.pagination;
 import com.ball.web.entity.Ssq;
 
 public class SsqServlet extends SuperServlet {
 
 	private static final long serialVersionUID = -3078436182490412275L;
 
-	@BallFuntion(params = { "start=0", "end=99999" })
-	public JSONObject getRecords(int start, int end) {
-		JSONObject object = new JSONObject();
+	@BallFuntion(params = { "page=1", "rows=99999" })
+	public JSONObject getRecords(int page, int rows) {
+		pagination pagination = new pagination(page, rows);
 		List<Ssq> ssqs = getAllSsq();
-		JSONArray array = new JSONArray();
-		if (start > ssqs.size())
+		int start = pagination.getStart();
+		int end = pagination.getEnd();
+		if (start > ssqs.size() - 1)
 			start = ssqs.size() - 1;
-		if (start < 0)
-			start = 0;
-		if (end > ssqs.size())
+		if (end > ssqs.size() - 1)
 			end = ssqs.size() - 1;
-		if (end < 0)
-			end = 0;
-		if (end < start) {
-			int temp;
-			temp = end;
-			end = start;
-			start = temp;
-		}
 		for (int i = start; i <= end; i++) {
-			array.add(ssqs.get(i).getJSON());
+			pagination.addRow(ssqs.get(i).getJSON());
 		}
-		
-		object.add("total", ssqs.size());
-		object.add("rows", array);
-		return object;
+		pagination.setTotal(ssqs.size());
+		return pagination.toJsonObject();
 	}
-	
+
 	@BallFuntion(params = { "start=2003-01-01", "end=2222-01-01" })
-	public JSONObject getRecordsByDate(String start, String end) {
+	public JSONObject getRecordsByDate(String start, String end) throws Exception {
 		Date s = Util.df2.parse(start);
 		Date e = Util.df2.parse(end);
 		JSONObject object = new JSONObject();
 		List<Ssq> ssqs = getAllSsq();
-		for (int i = 0; i <= ssqs.size(); i++) {
+		JSONArray array = new JSONArray();
+		for (int i = 0; i < ssqs.size(); i++) {
 			Date date = ssqs.get(i).getDate();
-			if(date.get) {}
+			if (date.getTime() < s.getTime())
+				continue;
+			if (date.getTime() > e.getTime())
+				break;
+			array.add(ssqs.get(i).getJSON());
 		}
+		object.add("total", array.size());
+		object.add("rows", array);
 		return object;
 	}
 
@@ -93,10 +90,6 @@ public class SsqServlet extends SuperServlet {
 		return result;
 	}
 
-	@BallFuntion(params = { "id=0" })
-	public void test(int id) {
-	}
-
 	private List<Ssq> getAllSsq() {
 		@SuppressWarnings("unchecked")
 		List<Ssq> ssqs = (List<Ssq>) this.getServletContext().getAttribute(Constant.ALLSSQ);
@@ -110,9 +103,4 @@ public class SsqServlet extends SuperServlet {
 		}
 		return ssqs;
 	}
-
-	private int getId(List<Ssq> ssq, Date date) {
-		
-	}
-
 }

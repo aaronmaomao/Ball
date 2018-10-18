@@ -13,6 +13,10 @@ public class JSONArray {
 	public void add(JSONObject element) {
 		list.add(element);
 	}
+	
+	public int size() {
+		return list.size();
+	}
 
 	@Override
 	public String toString() {
