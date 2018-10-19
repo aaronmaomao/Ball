@@ -101,7 +101,7 @@ public class Ssq extends Ball {
 	public JSONObject getJSON() {
 		JSONObject object = new JSONObject();
 		object.add("id", id);
-		object.add("date", Util.format(date));
+		object.add("date", Util.df1.format(date));
 		object.add("r1", String.format("%02d", r1));
 		object.add("r2", String.format("%02d", r2));
 		object.add("r3", String.format("%02d", r3));

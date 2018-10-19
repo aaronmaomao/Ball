@@ -9,9 +9,11 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.ball.web.entity.Ssq;
+
 public class Util {
 
-	public static DateFormat bf = new SimpleDateFormat("yy-MM-dd");
+	public static DateFormat df1 = new SimpleDateFormat("yy-MM-dd");
 	public static SimpleDateFormat df2 = new SimpleDateFormat("yyyy-MM-dd");
 
 	public static int[] orderAsc(int[] arr) {
@@ -66,8 +68,60 @@ public class Util {
 		return result;
 	}
 
-	public static String format(Date date) {
-		return bf.format(date);
+	public static int halfSearch(int[] array, int value, boolean isApproch) {
+		int l = 0, c = (array.length - 1) / 2, r = array.length - 1, temp;
+		if (value > array[array.length - 1]) {
+			c = array.length - 1;
+		} else if (value < array[0]) {
+			c = 0;
+		} else {
+			while (l != c || c != r) {
+				long num = array[c];
+				if (num == value) {
+					break;
+				} else if (num > value) {
+					temp = c - 1;
+					c = (temp - 1) / 2 + 1;
+					r = temp;
+				} else {
+					temp = c + 1;
+					c = (r - temp) / 2 + temp;
+					l = temp;
+				}
+			}
+		}
+		if (!isApproch && value != array[c]) {
+			return -1;
+		}
+		return c;
+	}
+
+	public static int halfSearch(Date[] array, Date value, boolean isApproch) {
+		int l = 0, c = (array.length - 1) / 2, r = array.length - 1, temp;
+		if (value.compareTo(array[array.length - 1]) == 0) {
+			c = array.length - 1;
+		} else if (value.compareTo(array[0]) < 0) {
+			c = 0;
+		} else {
+			while (l != c || c != r) {
+				Date date = array[c];
+				if (date.compareTo(value) == 0) {
+					break;
+				} else if (date.compareTo(value) > 0) {
+					temp = c - 1;
+					c = (temp - 1) / 2 + 1;
+					r = temp;
+				} else {
+					temp = c + 1;
+					c = (r - temp) / 2 + temp;
+					l = temp;
+				}
+			}
+		}
+		if (!isApproch && value.compareTo(array[c]) != 0) {
+			return -1;
+		}
+		return c;
 	}
 
 	public static void main(String[] args) {

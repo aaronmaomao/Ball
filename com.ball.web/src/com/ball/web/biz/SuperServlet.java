@@ -3,6 +3,7 @@ package com.ball.web.biz;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +12,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.ball.web.commom.Constant;
+import com.ball.web.commom.Util;
 import com.ball.web.entity.Result;
+import com.ball.web.entity.SsqTable;
 import com.mysql.jdbc.StringUtils;
 
 /**
@@ -31,6 +35,7 @@ public class SuperServlet extends HttpServlet {
 	@Override
 	public void init() throws ServletException {
 		super.init();
+		getAllSsq();
 		mList = new ArrayList<>();
 		Method[] methods = this.getClass().getMethods();
 		for (Method method : methods) {
@@ -38,9 +43,11 @@ public class SuperServlet extends HttpServlet {
 				mList.add(method);
 			}
 		}
+
 	}
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		Result result = handle(request);
 		response.setCharacterEncoding("UTF-8");
 		response.getWriter().print(result.toString().replaceAll("&quot;", "\\\\\""));
@@ -50,7 +57,8 @@ public class SuperServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
@@ -59,7 +67,7 @@ public class SuperServlet extends HttpServlet {
 		Result result = new Result(false, "");
 		String funName = request.getParameter("fun");
 		if (StringUtils.isNullOrEmpty(funName)) {
-			result.addData("请求功能为空");
+			result.addData(Constant.FUN_INVALID);
 			return result;
 		}
 		for (Method m : mList) {
@@ -71,7 +79,7 @@ public class SuperServlet extends HttpServlet {
 					params[i] = params[i] + " ";
 					String value = request.getParameter(params[i].split("=")[0].trim());
 					if (value == null && params[i].split("=").length != 2) {
-						return new Result(false, funName + "中" + params[i].trim() + "不能为空");
+						return new Result(false, Constant.ARGS_NULL + params[i]);
 					} else if (value == null) {
 						value = params[i].split("=")[1];
 					}
@@ -80,20 +88,18 @@ public class SuperServlet extends HttpServlet {
 
 				Object[] args = new Object[m.getParameterTypes().length];
 				for (int i = 0; i < m.getParameterTypes().length && i < params.length; i++) {
-					if (m.getParameterTypes()[i].getName().equals("int")) {
-						if (values[i].isEmpty()) {
-							args[i] = 0;
+					try {
+						if (m.getParameterTypes()[i].getName().equals("int")) {
+							args[i] = Integer.parseInt(values[i]);
+						} else if (m.getParameterTypes()[i].getName().equals("java.util.Date")) {
+							args[i] = Util.df2.parse(values[i]);
 						} else {
-							try {
-								args[i] = Integer.parseInt(values[i]);
-							} catch (Exception e) {
-								result.setSuccess(false);
-								result.addData(params[i] + "参数类型不合法");
-								return result;
-							}
+							args[i] = values[i];
 						}
-					} else {
-						args[i] = values[i];
+					} catch (Exception e) {
+						result.setSuccess(false);
+						result.addData(Constant.ARGS_NULL + params[i] + " = " + values[i]);
+						return result;
 					}
 				}
 				// if(m.getReturnType()!=null) {
@@ -115,6 +121,17 @@ public class SuperServlet extends HttpServlet {
 
 	}
 
-	public static void main(String[] args) {
+	protected SsqTable getAllSsq() {
+		SsqTable table = (SsqTable) this.getServletContext().getAttribute(Constant.SSQ_TABLE);
+		if (table == null) {
+			try {
+				table = new SsqTable(Server.updateAllSsq());
+				this.getServletContext().setAttribute(Constant.SSQ_TABLE, table);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return table;
 	}
+
 }

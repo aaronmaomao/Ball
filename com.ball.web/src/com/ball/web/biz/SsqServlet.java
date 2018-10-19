@@ -18,7 +18,7 @@ public class SsqServlet extends SuperServlet {
 	@BallFuntion(params = { "page=1", "rows=99999" })
 	public JSONObject getRecords(int page, int rows) {
 		pagination pagination = new pagination(page, rows);
-		List<Ssq> ssqs = getAllSsq();
+		List<Ssq> ssqs = getAllSsq().getList();
 		int start = pagination.getStart();
 		int end = pagination.getEnd();
 		if (start > ssqs.size() - 1)
@@ -32,28 +32,26 @@ public class SsqServlet extends SuperServlet {
 		return pagination.toJsonObject();
 	}
 
-	@BallFuntion(params = { "start=2003-01-01", "end=2222-01-01", "page=1", "rows=99999" })
-	public JSONObject getRecordsByDate(String start, String end, int page, int rows) throws Exception {
+	@BallFuntion(params = { "date1=2003-01-01", "date2=2222-01-01", "page=1", "rows=99999" })
+	public JSONObject getRecordsByDate(Date date1, Date date2, int page, int rows) throws Exception {
 		pagination pagination = new pagination(page, rows);
-		Date s = Util.df2.parse(start);
-		Date e = Util.df2.parse(end);
-		List<Ssq> ssqs = getAllSsq();
-		JSONArray array = new JSONArray();
-		for (int i = 0; i < ssqs.size(); i++) {
-			Date date = ssqs.get(i).getDate();
-			if (date.getTime() < s.getTime())
-				continue;
-			if (date.getTime() > e.getTime())
-				break;
-			array.add(ssqs.get(i).getJSON());
+		Ssq[] ary = getAllSsq().getList(date1, date2);
+		pagination.setTotal(ary.length);
+		int start = pagination.getStart();
+		int end = pagination.getEnd();
+		if (start > ary.length - 1)
+			start = ary.length - 1;
+		if (end > ary.length - 1)
+			end = ary.length - 1;
+		for (int i = start; i <= end; i++) {
+			pagination.addRow(ary[i].getJSON());
 		}
-		pagination.setTotal(array.size());
-		return object;
+		return pagination.toJsonObject();
 	}
 
 	@BallFuntion(params = {})
 	public JSONObject sum() {
-		List<Ssq> ssqs = getAllSsq();
+		List<Ssq> ssqs = getAllSsq().getList();
 		long r1 = 0, r2 = 0, r3 = 0, r4 = 0, r5 = 0, r6 = 0, b = 0;
 		for (Ssq ssq : ssqs) {
 			r1 = r1 + ssq.getR1();
@@ -87,26 +85,5 @@ public class SsqServlet extends SuperServlet {
 		result.add("total", 2);
 		result.add("rows", array);
 		return result;
-	}
-
-	private List<Ssq> getAllSsq() {
-		@SuppressWarnings("unchecked")
-		List<Ssq> ssqs = (List<Ssq>) this.getServletContext().getAttribute(Constant.ALLSSQ);
-		if (ssqs == null) {
-			try {
-				ssqs = Server.updateAllSsq();
-				this.getServletContext().setAttribute(Constant.ALLSSQ, ssqs);
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-		return ssqs;
-	}
-
-	private int getIndex(List<Ssq> list, int id) {
-		int left = 0, center = list.size() / 2, right = list.size() - 1;
-		while (!(left == center && center == right)) {
-			
-		}
 	}
 }
