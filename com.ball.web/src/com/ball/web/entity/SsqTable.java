@@ -54,8 +54,8 @@ public class SsqTable {
 	}
 
 	public Ssq[] getList(Date date1, Date date2) {
-		int index1 = Util.halfSearch(this.dateAry, date1, true);
-		int index2 = Util.halfSearch(this.dateAry, date2, true);
+		int index1 = Util.halfSearch(this.getDateAry(), date1, true);
+		int index2 = Util.halfSearch(this.getDateAry(), date2, true);
 		Ssq[] ary = new Ssq[index2 - index1 + 1];
 		for (int i = index1; i <= index2; i++) {
 			ary[i - index1] = ssqs.get(i);

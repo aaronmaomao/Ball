@@ -2,19 +2,17 @@ package com.ball.web.commom;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.ball.web.entity.Ssq;
-
 public class Util {
 
-	public static DateFormat df1 = new SimpleDateFormat("yy-MM-dd");
+	public static SimpleDateFormat df1 = new SimpleDateFormat("yy-MM-dd");
 	public static SimpleDateFormat df2 = new SimpleDateFormat("yyyy-MM-dd");
+	public static SimpleDateFormat df3 = new SimpleDateFormat("E");
 
 	public static int[] orderAsc(int[] arr) {
 		for (int j = arr.length; j > 0; j--)

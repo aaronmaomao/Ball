@@ -1,6 +1,5 @@
 package com.ball.web.entity;
 
-import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Date;
 
@@ -101,16 +100,28 @@ public class Ssq extends Ball {
 	public JSONObject getJSON() {
 		JSONObject object = new JSONObject();
 		object.add("id", id);
-		object.add("date", Util.df1.format(date));
-		object.add("r1", String.format("%02d", r1));
-		object.add("r2", String.format("%02d", r2));
-		object.add("r3", String.format("%02d", r3));
-		object.add("r4", String.format("%02d", r4));
-		object.add("r5", String.format("%02d", r5));
-		object.add("r6", String.format("%02d", r6));
-		object.add("b", String.format("%02d", b));
+		object.add("date", Util.df2.format(date) + " " + Util.df3.format(date).substring(2, 3));
+		object.add("r1", r1);
+		object.add("r2", r2);
+		object.add("r3", r3);
+		object.add("r4", r4);
+		object.add("r5", r5);
+		object.add("r6", r6);
+		object.add("b", b);
 		return object;
 
+	}
+
+	public int[] getBall() {
+		int[] ball = new int[7];
+		ball[0] = r1;
+		ball[1] = r2;
+		ball[2] = r3;
+		ball[3] = r4;
+		ball[4] = r5;
+		ball[5] = r6;
+		ball[6] = b;
+		return ball;
 	}
 
 	public static void main(String[] args) {

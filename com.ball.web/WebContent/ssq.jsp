@@ -94,38 +94,40 @@ body {
 				return true;
 			}
 		});
+		
+		//查询框
+		$("#searcher").tagbox({
+			data : [ {
+				id : 'date',
+				text : '日期'
+			} ]
+		});
 	});
 
-	function redCellStyler(value, row, index) {
-		return "color:#ff0000";
-	}
-
-	function blueCellStyler(value, row, index) {
-		return "color:#0000ff";
-	}
-
-	function redCellFormat(value, row, index) {
-		return value;
-	}
-
-	function sum(){
-		$.get("./ssq", {fun:"sum"}, function(data){
+	function sum() {
+		$.get("./ssq", {
+			fun : "sum"
+		}, function(data) {
 			if (check(data)) {
 				$('#ssqTable').datagrid("loadData", data.data)
 			}
 		}, "json");
 	}
-	
-	function searchByDate(){
-		var startDate = $("#startDate").datebox('getValue');
-		var endDate = $("#endDate").datebox('getValue');
-		$.get('./ssq', {fun:'getRecordsByDate', start:startDate, end:endDate}, function(data){
-			if(check(data)){
-				$('#ssqTable').datagrid("loadData", data.data)
-			}
-		}, 'json');
+
+	function searchByDate() {
+		var date1 = $("#startDate").datebox('getValue');
+		var date2 = $("#endDate").datebox('getValue');
+		queryParams.fun = "getRecordsByDate";
+		queryParams.date1 = date1;
+		queryParams.date2 = date2;
+		$('#ssqTable').datagrid("load");
 	}
-	function showColumn(columns){
+
+	function showColumn(columns) {
+	}
+	
+	function searcher(){
+		
 	}
 </script>
 </head>
@@ -134,8 +136,8 @@ body {
 		data-options="width:'700',idField:'id', ctrlSelect:'true',fit:'true', pagination:true,pageSize:100, pageList:[10,30,100,99999], toolbar:'#toolbar'">
 		<thead>
 			<tr>
-				<th data-options="field:'id',width:50">id</th>
-				<th data-options="field:'date',width:70">date</th>
+				<th data-options="field:'id',width:50, formatter:idCellFormat">id</th>
+				<th data-options="field:'date',width:105">date</th>
 				<th data-options="field:'common1',width:70, hidden:true">common1</th>
 				<th data-options="field:'r1',width:40,align:'center', styler:redCellStyler, formatter:redCellFormat">r1</th>
 				<th data-options="field:'r2',width:40,align:'center', styler:redCellStyler, formatter:redCellFormat">r2</th>
@@ -143,7 +145,9 @@ body {
 				<th data-options="field:'r4',width:40,align:'center', styler:redCellStyler, formatter:redCellFormat">r4</th>
 				<th data-options="field:'r5',width:40,align:'center', styler:redCellStyler, formatter:redCellFormat">r5</th>
 				<th data-options="field:'r6',width:40,align:'center', styler:redCellStyler, formatter:redCellFormat">r6</th>
-				<th data-options="field:'b',width:40,align:'center', styler:blueCellStyler, formatter:redCellFormat">b</th>
+				<th data-options="field:'b',width:40,align:'center', styler:blueCellStyler, formatter:blueCellFormat">b</th>
+				<th data-options="field:'sum',width:40,align:'center', styler:sumCellStyler, formatter:sumCellFormat">sum</th>
+				<th data-options="field:'avg',width:80,align:'center', styler:avgCellStyler, formatter:avgCellFormat">avg</th>
 				<th data-options="field:'common2',width:70, hidden:true">common2</th>
 				<th data-options="field:'r1_asc',width:40,align:'right',hidden:true">r1-s</th>
 				<th data-options="field:'r2_asc',width:40,align:'right',hidden:true">r2-s</th>
@@ -160,7 +164,9 @@ body {
 		<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-search',plain:true" onclick="searchByDate()"></a> 
 		<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-help',plain:true" onclick="refreshHandler()"></a>
 		<a href="javascript:void(0);" class="easyui-linkbutton" title="asd" data-options="iconCls:'',text:'syns', plain:true" onclick="synCh"></a>
-		<a href="javascript:void(0);" class="easyui-linkbutton" title="asd" data-options="iconCls:'',text:'sum', plain:true" onclick="sum()"></a>
+		<a href="javascript:void(0);" class="easyui-linkbutton" title="asd" data-options="iconCls:'',text:'sum', plain:true" onclick="sum()"></a><br>
+		<input id="searcher" class="easyui-tagbox" data-options="hasDownArrow:true, width:400, limitToList:true, valueField:'id', textField:'text'"> 
+		<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-search',plain:true" onclick="searcher()"></a>
 	</div>
 </body>
 </html>

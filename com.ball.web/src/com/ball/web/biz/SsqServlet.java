@@ -1,15 +1,12 @@
 package com.ball.web.biz;
 
-import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 
-import com.ball.web.commom.Constant;
-import com.ball.web.commom.Util;
 import com.ball.web.entity.JSONArray;
 import com.ball.web.entity.JSONObject;
-import com.ball.web.entity.pagination;
 import com.ball.web.entity.Ssq;
+import com.ball.web.entity.pagination;
 
 public class SsqServlet extends SuperServlet {
 
@@ -85,5 +82,17 @@ public class SsqServlet extends SuperServlet {
 		result.add("total", 2);
 		result.add("rows", array);
 		return result;
+	}
+
+	public void compute(Date date1, Date date2) {
+		Ssq[] ary = getAllSsq().getList(date1, date2);
+
+	}
+
+	private int[][] 统计_出现次数(Ssq[] ssqs) {
+		int[][] result = new int[6][33];
+		for(Ssq ssq:ssqs) {
+			 
+		}
 	}
 }
