@@ -27,7 +27,6 @@ public class SsqServlet extends SuperServlet {
 		for (int i = start; i <= end; i++) {
 			pagination.addRow(ssqs.get(i).getJSON());
 		}
-		tg_count(ssqs.toArray(new Ssq[] {}));
 		pagination.setTotal(ssqs.size());
 		return pagination.toJsonObject();
 	}
@@ -87,12 +86,7 @@ public class SsqServlet extends SuperServlet {
 		return result;
 	}
 
-	public void compute(Date date1, Date date2) {
-		Ssq[] ary = getAllSsq().getList(date1, date2);
-
-	}
-
-	private static int[][] tg_count(Ssq[] ssqs) {
+	private int[][] tj_count(Ssq[] ssqs) {
 		int[][] result = new int[6][33];
 		for (Ssq ssq : ssqs) {
 			int[] ball = ssq.getBall();
@@ -102,12 +96,8 @@ public class SsqServlet extends SuperServlet {
 		}
 		return result;
 	}
+	
 	public static void main(String[] args) {
-		try {
-			tg_count(new SsqTable(Server.updateAllSsq()).getList().toArray(new Ssq[] {}));
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
 		
 	}
 }
