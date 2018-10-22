@@ -1,11 +1,13 @@
 package com.ball.web.biz;
 
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 
 import com.ball.web.entity.JSONArray;
 import com.ball.web.entity.JSONObject;
 import com.ball.web.entity.Ssq;
+import com.ball.web.entity.SsqTable;
 import com.ball.web.entity.pagination;
 
 public class SsqServlet extends SuperServlet {
@@ -25,6 +27,7 @@ public class SsqServlet extends SuperServlet {
 		for (int i = start; i <= end; i++) {
 			pagination.addRow(ssqs.get(i).getJSON());
 		}
+		tg_count(ssqs.toArray(new Ssq[] {}));
 		pagination.setTotal(ssqs.size());
 		return pagination.toJsonObject();
 	}
@@ -89,10 +92,22 @@ public class SsqServlet extends SuperServlet {
 
 	}
 
-	private int[][] 统计_出现次数(Ssq[] ssqs) {
+	private static int[][] tg_count(Ssq[] ssqs) {
 		int[][] result = new int[6][33];
-		for(Ssq ssq:ssqs) {
-			 
+		for (Ssq ssq : ssqs) {
+			int[] ball = ssq.getBall();
+			for (int i = 0; i < 6; i++) {
+				result[i][ball[i]-1]++;
+			}
 		}
+		return result;
+	}
+	public static void main(String[] args) {
+		try {
+			tg_count(new SsqTable(Server.updateAllSsq()).getList().toArray(new Ssq[] {}));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
 	}
 }
