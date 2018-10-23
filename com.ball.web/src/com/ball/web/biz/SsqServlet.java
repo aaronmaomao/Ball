@@ -1,13 +1,11 @@
 package com.ball.web.biz;
 
-import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 
 import com.ball.web.entity.JSONArray;
 import com.ball.web.entity.JSONObject;
 import com.ball.web.entity.Ssq;
-import com.ball.web.entity.SsqTable;
 import com.ball.web.entity.pagination;
 
 public class SsqServlet extends SuperServlet {
@@ -44,6 +42,23 @@ public class SsqServlet extends SuperServlet {
 			end = ary.length - 1;
 		for (int i = start; i <= end; i++) {
 			pagination.addRow(ary[i].getJSON());
+		}
+		return pagination.toJsonObject();
+	}
+
+	@BallFuntion(params = { "date1=2003-01-01", "date2=2222-01-01" })
+	public JSONObject getBallTimes(Date date1, Date date2) {
+		Ssq[] ary = getAllSsq().getList(date1, date2);
+		int[][] times = ballTimes(ary);
+		pagination pagination = new pagination(1, 33);
+		pagination.setTotal(33);
+		for (int i = 0; i < 33; i++) {
+			JSONObject obj = new JSONObject("id", i + 1);
+			for (int j = 0; j < 6; j++) {
+				obj.add("r" + (j + 1), times[j][i]);
+			}
+			obj.add("mark", "getBallTimes");
+			pagination.addRow(obj);
 		}
 		return pagination.toJsonObject();
 	}
@@ -86,18 +101,18 @@ public class SsqServlet extends SuperServlet {
 		return result;
 	}
 
-	private int[][] tj_count(Ssq[] ssqs) {
+	private int[][] ballTimes(Ssq[] ssqs) {
 		int[][] result = new int[6][33];
 		for (Ssq ssq : ssqs) {
 			int[] ball = ssq.getBall();
 			for (int i = 0; i < 6; i++) {
-				result[i][ball[i]-1]++;
+				result[i][ball[i] - 1]++;
 			}
 		}
 		return result;
 	}
-	
+
 	public static void main(String[] args) {
-		
+
 	}
 }

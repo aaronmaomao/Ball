@@ -122,6 +122,15 @@ body {
 		queryParams.date2 = date2;
 		$('#ssqTable').datagrid("load");
 	}
+	
+	function getBallTimes(){
+		var date1 = $("#startDate").datebox('getValue');
+		var date2 = $("#endDate").datebox('getValue');
+		queryParams.fun = "getBallTimes";
+		queryParams.date1 = date1;
+		queryParams.date2 = date2;
+		$('#ssqTable').datagrid("load");
+	}
 
 	function showColumn(columns) {
 	}
@@ -162,7 +171,7 @@ body {
 		<input id="startDate" class="easyui-datebox" data-options="width:110"><span style="margin-left: 3px;font-weight: bold;">-</span>
 		<input id="endDate" class="easyui-datebox" data-options="width:110"> 
 		<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-search',plain:true" onclick="searchByDate()"></a> 
-		<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-help',plain:true" onclick="refreshHandler()"></a>
+		<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'',plain:true" onclick="getBallTimes()">出现次数</a>
 		<a href="javascript:void(0);" class="easyui-linkbutton" title="asd" data-options="iconCls:'',text:'syns', plain:true" onclick="synCh"></a>
 		<a href="javascript:void(0);" class="easyui-linkbutton" title="asd" data-options="iconCls:'',text:'sum', plain:true" onclick="sum()"></a><br>
 		<input id="searcher" class="easyui-tagbox" data-options="hasDownArrow:true, width:400, limitToList:true, valueField:'id', textField:'text'"> 

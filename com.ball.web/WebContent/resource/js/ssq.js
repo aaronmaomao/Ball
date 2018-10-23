@@ -18,7 +18,11 @@ function check(data) {
  * cellStyler and cellFormat
  ******************************************************************************/
 function idCellFormat(value, row, index) {
-	return PrefixInteger(value, 5);
+	var l = 5;
+	if (row.mark == "getBallTimes") {
+		l = 2
+	}
+	return PrefixInteger(value, l);
 }
 
 function redCellStyler(value, row, index) {
@@ -26,6 +30,10 @@ function redCellStyler(value, row, index) {
 }
 
 function redCellFormat(value, row, index) {
+	var l = 2;
+	if (row.mark == "getBallTimes") {
+		l = 3
+	}
 	return PrefixInteger(value, 2);
 }
 
@@ -61,6 +69,9 @@ function avgCellFormat(value, row, index) {
 
 // 补0输出
 function PrefixInteger(num, length1, length2) {
+	if (num == null) {
+		return num;
+	}
 	var str = "0000000000" + num;
 	var i = str.indexOf(".");
 	if (i < 0) {
@@ -72,7 +83,6 @@ function PrefixInteger(num, length1, length2) {
 	var zheng = ary[0].substring(ary[0].length - length1, ary[0].length);
 	var xiao = "";
 	if (length2 != null) {
-		debugger
 		xiao = "." + ary[1].substring(0, length2);
 	}
 	return zheng + xiao;
