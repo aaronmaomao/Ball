@@ -68,12 +68,14 @@ public class Util {
 
 	public static int halfSearch(int[] array, int value, boolean isApproch) {
 		int l = 0, c = (array.length - 1) / 2, r = array.length - 1, temp;
-		if (value > array[array.length - 1]) {
-			c = array.length - 1;
-		} else if (value < array[0]) {
-			c = 0;
-		} else {
-			while (l != c || c != r) {
+		while (l != r) {
+			if (value > array[r]) {
+				c = r;
+				break;
+			} else if (value < array[l]) {
+				c = l;
+				break;
+			} else {
 				long num = array[c];
 				if (num == value) {
 					break;
@@ -88,6 +90,7 @@ public class Util {
 				}
 			}
 		}
+
 		if (!isApproch && value != array[c]) {
 			return -1;
 		}
@@ -96,12 +99,14 @@ public class Util {
 
 	public static int halfSearch(Date[] array, Date value, boolean isApproch) {
 		int l = 0, c = (array.length - 1) / 2, r = array.length - 1, temp;
-		if (value.compareTo(array[array.length - 1]) == 0) {
-			c = array.length - 1;
-		} else if (value.compareTo(array[0]) < 0) {
-			c = 0;
-		} else {
-			while (l != c || c != r) {
+		while (l != r) {
+			if (value.compareTo(array[r]) > 0) {
+				c = r;
+				break;
+			} else if (value.compareTo(array[l]) < 0) {
+				c = l;
+				break;
+			} else {
 				Date date = array[c];
 				if (date.compareTo(value) == 0) {
 					break;

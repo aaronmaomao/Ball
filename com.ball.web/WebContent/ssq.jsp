@@ -74,7 +74,7 @@ body {
 		});
 		$('#startDate').datebox().datebox('calendar').calendar({
 			validator: function(date){
-				var d1 = new Date("2003-02-23");
+				var d1 = new Date("2003-02-22");
 				if (date.getTime() < d1.getTime() || date.getTime() > curDate.getTime()) {
 					return false; 
 				}
